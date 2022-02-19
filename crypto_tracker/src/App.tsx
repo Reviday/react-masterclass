@@ -33,10 +33,11 @@ const GlobalStyle = createGlobalStyle`
       display: none;
   }
   body {
+    font-weight: 300;
     font-family:  'Source Sans Pro', sans-serif;
-    line-height: 1;
-    background-color: ${props => props.theme.bgColor};
-    color: ${props => props.theme.textColor}
+    line-height: 1.2;
+    background-color: ${(props) => props.theme.bgColor};
+    color: ${(props) => props.theme.textColor}
   }
   menu, ol, ul {  
     list-style: none;
