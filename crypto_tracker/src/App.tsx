@@ -69,13 +69,12 @@ const GlobalStyle = createGlobalStyle`
 
 function App() {
   const [isDark, setIsDark] = useState(true);
-  const toggleDark = () => setIsDark(current => !current);
+  const toggleDark = () => setIsDark((current) => !current);
   return (
     <>
       <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
-        <button onClick={toggleDark}>Toggle Mode</button>
         <GlobalStyle />
-        <Router />
+        <Router isDark={isDark} toggleDark={toggleDark} />
         <ReactQueryDevtools initialIsOpen={true} />
       </ThemeProvider>
     </>
