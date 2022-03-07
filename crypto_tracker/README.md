@@ -1,70 +1,258 @@
-# Getting Started with Create React App
+# Crypto Tracker
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Styled-Components
 
-## Available Scripts
+### 사용 예)
 
-In the project directory, you can run:
+```jsx
+import styled from 'styled-components';
 
-### `npm start`
+const Father = styled.div`
+  display: flex;
+`;
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+const BoxOne = styled.div`
+  background-color: teal;
+  width: 100px;
+  height: 100px;
+`;
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+const BoxTwo = styled.div`
+  background-color: tomato;
+  width: 100px;
+  height: 100px;
+`;
 
-### `npm test`
+const Text = styled.span`
+  color: white;
+`;
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+function App() {
+  return (
+    <Father>
+      <BoxOne>
+        <Text>Hello</Text>
+      </BoxOne>
+      <BoxTwo />
+    </Father>
+  );
+}
 
-### `npm run build`
+export default App;
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## ****'As' and Attrs****
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- as: 태그를 변경하고자 할 때 사용하는 옵션
+- Attrs: 그 외 기본적인 태그 옵션들을 사용할 수 있음.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```jsx
+const Btn = styled.button`
+  color: wheat;
+  background-color: tomato;
+  border: 0;
+  border-radius: 15px;
+`;
 
-### `npm run eject`
+function App() {
+  return (
+    <Father>
+      <Btn>Log in</Btn>
+      <Btn as="a" href="/">Log in</Btn>
+    </Father>
+  );
+}
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+![Untitled](React%20Mast%2014392/Untitled.png)
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### 속성값 설정
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+```jsx
+const Input = styled.input.attrs({required: true, minLength: 10})`
+  background-color: tomato;
+`;
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+function App() {
+  return (
+    <Father>
+      <Input />
+      <Input />
+      <Input />
+      <Input />
+      <Input />
+    </Father>
+  );
+}
+```
 
-## Learn More
+![Untitled](React%20Mast%2014392/Untitled%201.png)
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## ****Animations and Pseudo Selectors****
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### 애니메이션 사용법
 
-### Code Splitting
+```jsx
+import styled, { keyframes } from 'styled-components';
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+const Wrapper = styled.div`
+  display: flex;
+`;
 
-### Analyzing the Bundle Size
+const rotationAnimation = keyframes`
+  0% {
+    transform: rotate(0deg);
+    border-radius: 0px;
+  }
+  50% {
+    border-radius: 100px;
+  }
+  100% {
+    transform: rotate(360deg);
+    border-radius: 0px;
+  }
+`;
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+const Box = styled.div`
+  height: 200px;
+  width: 200px;
+  background-color: tomato;
+  animation: ${rotationAnimation} 1s linear infinite; // string interpolation
+`;
 
-### Making a Progressive Web App
+function App() {
+  return (
+    <Wrapper>
+      <Box />
+    </Wrapper>
+  );
+}
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+export default App;
+```
 
-### Advanced Configuration
+### 하위 요소에 스타일 주기
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+```jsx
+const Box = styled.div`
+  height: 200px;
+  width: 200px;
+  background-color: tomato;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: ${rotationAnimation} 1s linear infinite; // string interpolation
+  **span {
+    font-size: 36px;
+    &:hover {
+      // case 1 ...      
+    }
+  }
+  span:hover {
+    // case 2 ...
+  }**
+`;
 
-### Deployment
+function App() {
+  return (
+    <Wrapper>
+      <Box>
+        <span>🤩</span>
+      </Box>
+    </Wrapper>
+  );
+}
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+### 하위 요소에 스타일 주기2
 
-### `npm run build` fails to minify
+```jsx
+const Emoji = styled.span`
+  font-size: 36px;
+`;
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+const Box = styled.div`
+  height: 200px;
+  width: 200px;
+  background-color: tomato;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: ${rotationAnimation} 1s linear infinite; // string interpolation
+  **${Emoji} {
+    &:hover {
+      font-size: 98px;
+    }
+  }**
+`;
+
+function App() {
+  return (
+    <Wrapper>
+      <Box>
+        <Emoji as="p">🤩</Emoji>
+      </Box>
+    </Wrapper>
+  );
+}
+```
+
+## ****Themes****
+
+### 테마 적용 기본
+
+```jsx
+// index.js
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { ThemeProvider } from 'styled-components';
+import App from './App';
+
+const darkTheme = {
+  textColor: 'whitesmoke',
+  backgroundColor: '#111',
+};
+
+const lightTheme = {
+  textColor: '#111',
+  backgroundColor: 'whitesmoke',
+};
+
+ReactDOM.render(
+  <React.StrictMode>
+    <ThemeProvider theme={darkTheme}>
+      <App />
+    </ThemeProvider>
+  </React.StrictMode>,
+  document.getElementById('root')
+);
+```
+
+위 theme의 값이 darkTheme이냐 lightTheme에 따라서 하위가 받는 props의 값이 바뀌게 된다.
+
+```jsx
+import styled from 'styled-components';
+
+const Title = styled.h1`
+  color: ${(props) => props.theme.textColor};
+`;
+
+const Wrapper = styled.div`
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  justify-content: center;
+  align-items: center;
+  background-color: ${props => props.theme.backgroundColor};
+`;
+
+function App() {
+  return (
+    <Wrapper>
+      <Title>Hello</Title>
+    </Wrapper>
+  );
+}
+
+export default App;
+```
