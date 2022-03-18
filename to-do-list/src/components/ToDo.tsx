@@ -9,9 +9,18 @@ function ToDo({ text, category, id }: IToDo) {
       currentTarget: { name },
     } = event;
     setToDos((oldToDos) => {
-      const targetIndex = oldToDos.findIndex((toDo) => toDo.id === id);
-      const newToDo = { text, id, category: name };
-      return oldToDos;
+      /* [기존 강의 코드] */
+      // const targetIndex = oldToDos.findIndex((toDo) => toDo.id === id);
+      // const newToDo = { text, id, category: name as any };
+      // return [...oldToDos.slice(0, targetIndex), newToDo, ...oldToDos.slice(targetIndex + 1)];
+
+      /* [변형 코드 - 연산이 많이 들어가고 가독성도 좋지 않아 보여서 수정] */
+      return oldToDos.map((toDo) => {
+        if (toDo.id === id) {
+          return { text, id, category: name as IToDo['category'] };
+        }
+        return toDo;
+      });
     });
   };
   return (
