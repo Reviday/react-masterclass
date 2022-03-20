@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSetRecoilState } from 'recoil';
-import { IToDo, toDoState } from '../atoms';
+import { Categories, IToDo, toDoState } from '../atoms';
 
 function ToDo({ text, category, id }: IToDo) {
   const setToDos = useSetRecoilState(toDoState);
@@ -17,7 +17,7 @@ function ToDo({ text, category, id }: IToDo) {
       /* [변형 코드 - 연산이 많이 들어가고 가독성도 좋지 않아 보여서 수정] */
       return oldToDos.map((toDo) => {
         if (toDo.id === id) {
-          return { text, id, category: name as IToDo['category'] };
+          return { text, id, category: name as Categories };
         }
         return toDo;
       });
@@ -26,18 +26,18 @@ function ToDo({ text, category, id }: IToDo) {
   return (
     <li>
       <span>{text}</span>
-      {category !== 'DOING' && (
-        <button name="DOING" onClick={onClick}>
+      {category !== Categories.DOING && (
+        <button name={Categories.DOING} onClick={onClick}>
           Doing
         </button>
       )}
-      {category !== 'TO_DO' && (
-        <button name="TO_DO" onClick={onClick}>
+      {category !== Categories.TO_DO && (
+        <button name={Categories.TO_DO} onClick={onClick}>
           To Do
         </button>
       )}
-      {category !== 'DONE' && (
-        <button name="DONE" onClick={onClick}>
+      {category !== Categories.DONE && (
+        <button name={Categories.DONE} onClick={onClick}>
           Done
         </button>
       )}
