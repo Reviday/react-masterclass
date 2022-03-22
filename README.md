@@ -79,7 +79,7 @@ function App() {
 }
 ```
 
-![Untitled](https://s3.us-west-2.amazonaws.com/secure.notion-static.com/77ff5ee4-a0f2-47f3-85c1-4a9a42a21714/Untitled.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20220312%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20220312T142045Z&X-Amz-Expires=86400&X-Amz-Signature=41130899a27e2d7d9d863ba8301297ebd2ddbc5f2668c6f4c4ab2fec3e4e714f&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22Untitled.png%22&x-id=GetObject)
+![example](/images/'as'-and-attrs-1.png)
 
 ### 속성값 설정
 
@@ -101,7 +101,7 @@ function App() {
 }
 ```
 
-![Untitled](https://s3.us-west-2.amazonaws.com/secure.notion-static.com/e6d9bcf5-d87f-42a3-9c9d-10b686ddc4d0/Untitled.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20220312%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20220312T142129Z&X-Amz-Expires=86400&X-Amz-Signature=558f842c5e6e1d958b7a983d350c4dd6e13fbd6841d2317d981999e10b9e9e93&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22Untitled.png%22&x-id=GetObject)
+![example](/images/property-value-setting-1%20.png)
 
 ## ****Animations and Pseudo Selectors****
 
@@ -306,7 +306,7 @@ React에서 비동기 로직을 쉽게 다루게 해주는 라이브러리
     
 2. API를 사용할 위치에서 `useQuery`를 사용
     
-    : Apollo Client의 `useQuery`와 사용법이 너무 유사하다.
+    : Apollo Client의 `useQuery`와 사용법이 많이 유사하다.
     
     ```tsx
     import { useQuery } from 'react-query';
