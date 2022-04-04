@@ -3,6 +3,5 @@
   - React.js
   - Typescript
   - Styled Components
-  - React Hook Form
   - Recoil
   - React Beautiful Dnd

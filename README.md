@@ -485,12 +485,67 @@ function ToDoList() {
 
 ### Validation
 
-1. required: 필수 데이터 여부를 처리할 수 있다.
+`required`: 필수 데이터 여부를 처리할 수 있다.
+
+1. `Boolean` 값을 부여할 경우 에러 타입만 지정
+    
+    ```jsx
+    <input {...register('email', { required: true })} placeholder="Email" />
+    ```
+    
+2. `String` 값을 넘길 경우 해당 에러가 발생했을 시 출력 시킬 message로 사용할 수 있다.
     
     ```tsx
-    <input {...register('email', { required: true })} placeholder="Email" />
-    
-    or 
-    
     <input {...register('email', { required: 'Password is required' })} placeholder="Email" />
     ```
+    
+
+`pattern`: 지정한 패턴을 만족하는지 여부를 체크할 수 있다. 위 `required`와 마찬가지로, 값만 넣을 경우에는 error체크만, value와 message를 넣어줄 경우에는 체크와 함께 Error Message도 설정 가능하다.
+
+- value: pattern 체크를 위해 사용할 값. 보통 정규식.
+- message: pattern을 충족하지 못했을 경우 사용할 Error Message.
+
+```tsx
+ <input
+  {...register('email', {
+    required: 'Email is required',
+    pattern: {
+      value: /^[A-Za-z0-9._%+-]+@naver.com$/,
+      message: 'Only naver.com emails allowed',
+    },
+  })}
+  placeholder="Email"
+/>
+```
+
+`minLength/maxLength`: 지정한 값 만큼의 최소/최대 문자열 길이를 갖는 조건을 설정한다. 마찬가지로, 값만 넣을 수도 있고 value와 message를 함께 넣어 설정할 수도 있다.
+
+```tsx
+<input
+  {...register('password', {
+    required: 'Password is required',
+    maxLength: {
+      value: 5,
+      message: 'Your password is too short.',
+    },
+  })}
+  placeholder="Password"
+/>
+```
+
+`validate`: 직접 validate를 만들어서 사용할 수도 있다.
+
+```tsx
+<input
+  {...register('firstName', {
+    required: 'write here',
+    validate: {
+      noRevi: (value) => (value.includes('revi') ? 'no revis allowed' : true),
+      noNick: (value) => (value.includes('nick') ? 'no nicks allowed' : true),
+    },
+  })}
+  placeholder="First Name"
+/>
+```
+
+그 밖의 validate는 [여기](https://react-hook-form.com/get-started#Applyvalidation)를 참조합니다.
