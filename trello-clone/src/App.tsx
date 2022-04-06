@@ -34,10 +34,38 @@ const Card = styled.div`
   background-color: ${(props) => props.theme.cardColor};
 `;
 
+/**
+ * [Mutation]
+ * const x = [1,2,3];
+ * x.splice(0,1);
+ * x
+ * => (2) [2, 3]
+ *
+ * [Non-Mutation]
+ * const name = 'revi';
+ * name.toUpperCase();
+ * name
+ * => 'revi'
+ */
+
 function App() {
   const [toDos, setToDos] = useRecoilState(toDoState);
-  const onDragEnd = ({ destination, source }: DropResult) => {
-    //
+  const onDragEnd = ({ draggableId, destination, source }: DropResult) => {
+    if (!destination) return;
+
+    setToDos((oldToDos) => {
+      const toDoCopy = [...oldToDos];
+      // 1) Delete item on source.index
+      console.log('Delete item on', source.index);
+      console.log(toDoCopy);
+      toDoCopy.splice(source.index, 1);
+      console.log('Delete item');
+      console.log(toDoCopy);
+      // 2) Put back the item on the destination.index
+      console.log('Put back', draggableId, 'on ', destination.index);
+      toDoCopy.splice(destination?.index, 0, draggableId);
+      return toDoCopy;
+    });
   };
   return (
     <DragDropContext onDragEnd={onDragEnd}>
@@ -47,7 +75,7 @@ function App() {
             {(magic) => (
               <Board ref={magic.innerRef} {...magic.droppableProps}>
                 {toDos.map((toDo, index) => (
-                  <Draggable key={index} draggableId={toDo} index={index}>
+                  <Draggable key={toDo} draggableId={toDo} index={index}>
                     {(magic) => (
                       <Card
                         ref={magic.innerRef}
