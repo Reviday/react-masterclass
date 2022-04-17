@@ -35,6 +35,14 @@ const Boards = styled.div`
  * => 'revi'
  */
 
+/**
+ * [Code Challenge]
+ * 1. input design & Task state in the local storage
+ * 2. Delete Task => Button or DND 
+ * 3. Change Board Order(Todo, Doing, Done)
+ *    or Create New Board
+ */
+
 function App() {
   const [toDos, setToDos] = useRecoilState(toDoState);
   const onDragEnd = (info: DropResult) => {
