@@ -41,6 +41,7 @@ const GlobalStyle = createGlobalStyle`
     font-family:  'Source Sans Pro', sans-serif;
     line-height: 1.2;
     color: black;
+    background:linear-gradient(135deg,#e09,#d0e);
   }
   menu, ol, ul {  
     list-style: none;
