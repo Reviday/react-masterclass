@@ -1,9 +1,9 @@
-import { useQuery } from "react-query";
-import styled from "styled-components";
-import { motion, AnimatePresence } from "framer-motion";
-import { getMovies, IGetMoviesResult } from "../api";
-import { makeImagePath } from "../utils";
-import { useState } from "react";
+import { useQuery } from 'react-query';
+import styled from 'styled-components';
+import { motion, AnimatePresence } from 'framer-motion';
+import { getMovies, IGetMoviesResult } from '../api';
+import { makeImagePath } from '../utils';
+import { useState } from 'react';
 
 const Wrapper = styled.div`
   background: black;
@@ -58,6 +58,12 @@ const Box = styled(motion.div)<{ bgPhoto: string }>`
   background-position: center center;
   height: 200px;
   font-size: 66px;
+  &:first-child {
+    transform-origin: center left;
+  }
+  &:last-child {
+    transform-origin: center right;
+  }
 `;
 
 const rowVariants = {
@@ -72,13 +78,25 @@ const rowVariants = {
   },
 };
 
+const BoxVariants = {
+  normal: {
+    scale: 1,
+  },
+  hover: {
+    scale: 1.3,
+    y: -50,
+    transiton: {
+      delay: 0.5,
+      duration: 0.3,
+      type: 'tween',
+    },
+  },
+};
+
 const offset = 6;
 
 function Home() {
-  const { data, isLoading } = useQuery<IGetMoviesResult>(
-    ["movies", "nowPlaying"],
-    getMovies
-  );
+  const { data, isLoading } = useQuery<IGetMoviesResult>(['movies', 'nowPlaying'], getMovies);
   const [index, setIndex] = useState(0);
   const [leaving, setLeaving] = useState(false);
   const incraseIndex = () => {
@@ -99,7 +117,7 @@ function Home() {
         <>
           <Banner
             onClick={incraseIndex}
-            bgPhoto={makeImagePath(data?.results[0].backdrop_path || "")}
+            bgPhoto={makeImagePath(data?.results[0].backdrop_path || '')}
           >
             <Title>{data?.results[0].title}</Title>
             <Overview>{data?.results[0].overview}</Overview>
@@ -111,7 +129,7 @@ function Home() {
                 initial="hidden"
                 animate="visible"
                 exit="exit"
-                transition={{ type: "tween", duration: 1 }}
+                transition={{ type: 'tween', duration: 1 }}
                 key={index}
               >
                 {data?.results
@@ -120,7 +138,11 @@ function Home() {
                   .map((movie) => (
                     <Box
                       key={movie.id}
-                      bgPhoto={makeImagePath(movie.backdrop_path, "w500")}
+                      variants={BoxVariants}
+                      whileHover="hover"
+                      initial="normal"
+                      transition={{ type: "tween" }}
+                      bgPhoto={makeImagePath(movie.backdrop_path, 'w500')}
                     />
                   ))}
               </Row>
