@@ -1,9 +1,10 @@
-import { useQuery } from 'react-query';
-import styled from 'styled-components';
-import { motion, AnimatePresence } from 'framer-motion';
-import { getMovies, IGetMoviesResult } from '../api';
-import { makeImagePath } from '../utils';
-import { useState } from 'react';
+import { useQuery } from "react-query";
+import styled from "styled-components";
+import { motion, AnimatePresence } from "framer-motion";
+import { getMovies, IGetMoviesResult } from "../api";
+import { makeImagePath } from "../utils";
+import { useState } from "react";
+import { useHistory, useRouteMatch } from "react-router-dom";
 
 const Wrapper = styled.div`
   background: black;
@@ -58,6 +59,7 @@ const Box = styled(motion.div)<{ bgPhoto: string }>`
   background-position: center center;
   height: 200px;
   font-size: 66px;
+  cursor: pointer;
   &:first-child {
     transform-origin: center left;
   }
@@ -101,7 +103,7 @@ const BoxVariants = {
     transition: {
       delay: 0.5,
       duaration: 0.1,
-      type: 'tween',
+      type: "tween",
     },
   },
 };
@@ -112,7 +114,7 @@ const infoVariants = {
     transition: {
       delay: 0.5,
       duaration: 0.1,
-      type: 'tween',
+      type: "tween",
     },
   },
 };
@@ -120,7 +122,12 @@ const infoVariants = {
 const offset = 6;
 
 function Home() {
-  const { data, isLoading } = useQuery<IGetMoviesResult>(['movies', 'nowPlaying'], getMovies);
+  const history = useHistory();
+  const bigMovieMatch = useRouteMatch<{ movieId: string }>("/movies/:movieId");
+  const { data, isLoading } = useQuery<IGetMoviesResult>(
+    ["movies", "nowPlaying"],
+    getMovies
+  );
   const [index, setIndex] = useState(0);
   const [leaving, setLeaving] = useState(false);
   const incraseIndex = () => {
@@ -133,6 +140,9 @@ function Home() {
     }
   };
   const toggleLeaving = () => setLeaving((prev) => !prev);
+  const onBoxClicked = (movieId: number) => {
+    history.push(`/movies/${movieId}`);
+  };
   return (
     <Wrapper>
       {isLoading ? (
@@ -141,7 +151,7 @@ function Home() {
         <>
           <Banner
             onClick={incraseIndex}
-            bgPhoto={makeImagePath(data?.results[0].backdrop_path || '')}
+            bgPhoto={makeImagePath(data?.results[0].backdrop_path || "")}
           >
             <Title>{data?.results[0].title}</Title>
             <Overview>{data?.results[0].overview}</Overview>
@@ -153,7 +163,7 @@ function Home() {
                 initial="hidden"
                 animate="visible"
                 exit="exit"
-                transition={{ type: 'tween', duration: 1 }}
+                transition={{ type: "tween", duration: 1 }}
                 key={index}
               >
                 {data?.results
@@ -161,12 +171,14 @@ function Home() {
                   .slice(offset * index, offset * index + offset)
                   .map((movie) => (
                     <Box
+                      layoutId={movie.id + ""}
                       key={movie.id}
                       variants={BoxVariants}
                       whileHover="hover"
                       initial="normal"
-                      transition={{ type: 'tween' }}
-                      bgPhoto={makeImagePath(movie.backdrop_path, 'w500')}
+                      transition={{ type: "tween" }}
+                      onClick={() => onBoxClicked(movie.id)}
+                      bgPhoto={makeImagePath(movie.backdrop_path, "w500")}
                     >
                       <Info variants={infoVariants}>
                         <h4>{movie.title}</h4>
@@ -176,6 +188,23 @@ function Home() {
               </Row>
             </AnimatePresence>
           </Slider>
+          <AnimatePresence>
+            {bigMovieMatch ? (
+              <motion.div
+                layoutId={bigMovieMatch.params.movieId}
+                style={{
+                  position: "absolute",
+                  width: "40vw",
+                  height: "80vh",
+                  backgroundColor: "red",
+                  top: 50,
+                  left: 0,
+                  right: 0,
+                  margin: "0 auto",
+                }}
+              />
+            ) : null}
+          </AnimatePresence>
         </>
       )}
     </Wrapper>
